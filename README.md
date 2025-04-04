@@ -1,5 +1,4 @@
 # Desafio Pós-Tech FIAP - API de Gerenciamento de Pedidos
-Test
 Este projeto implementa uma API RESTful em Go para servir um sistema de pedidos, onde será possível gerenciar clientes, produtos e pedidos, como parte do desafio Pós-Tech em Arquitetura de Software da FIAP. A aplicação utiliza Docker e Docker Compose para facilitar a execução e o desenvolvimento, integrando-se com um banco de dados PostgreSQL.
 
 ### Demonstração da Arquitetura e APIs
