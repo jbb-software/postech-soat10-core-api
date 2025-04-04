@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../postech-soat10-auth-serverless"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../postech-soat10-database-infra"
+		},
+		{
+			"path": "../postech-soat10-kubernetes-infra"
+		}
+	],
+	"settings": {}
+}
