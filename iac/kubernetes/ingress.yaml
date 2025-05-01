@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: postech-api-ingress
+  namespace: postech-api
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "360"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "360"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "360"
+
+spec:
+  rules:
+  - host: postech-api.local
+    http:
+      paths:
+      - backend:
+          service:
+            name: postech-api-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
