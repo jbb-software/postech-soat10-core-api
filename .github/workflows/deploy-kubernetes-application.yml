@@ -34,6 +34,23 @@ jobs:
       run: |
         aws eks --region us-east-1 update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
 
+    - name: Generate Kubernetes Secret
+      run: |
+        cat <<EOF > iac/kubernetes/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postech-api-secret
+  namespace: postech-api
+type: Opaque
+stringData:
+  DB_HOST: "${{ secrets.DB_HOST }}"
+  DB_PORT: "${{ secrets.DB_PORT }}"
+  DB_NAME: "${{ secrets.DB_NAME }}"
+  DB_USER: "${{ secrets.DB_USER }}"
+  DB_PASSWORD: "${{ secrets.DB_PASSWORD }}"
+EOF
+
     - name: Verify cluster connection
       run: kubectl get nodes
 
