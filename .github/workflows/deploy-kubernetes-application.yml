@@ -34,32 +34,22 @@ jobs:
       run: |
         aws eks --region us-east-1 update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
 
-    - name: Generate Kubernetes Secret
-  env:
-    DB_HOST: ${{ secrets.DB_HOST }}
-    DB_PORT: ${{ secrets.DB_PORT }}
-    DB_NAME: ${{ secrets.DB_NAME }}
-    DB_USER: ${{ secrets.DB_USER }}
-    DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  run: |
-    cat > iac/kubernetes/secret.yaml <<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-  name: postech-api-secret
-  namespace: postech-api
-type: Opaque
-stringData:
-  DB_HOST: "${DB_HOST}"
-  DB_PORT: "${DB_PORT}"
-  DB_NAME: "${DB_NAME}"
-  DB_USER: "${DB_USER}"
-  DB_PASSWORD: "${DB_PASSWORD}"
-EOF
-
-
     - name: Verify cluster connection
       run: kubectl get nodes
 
-    - name: Apply Kubernetes manifests
-      run: kubectl apply -f iac/kubernetes/
+    - name: Create Kubernetes Secret and apply
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+    run: |
+      kubectl create secret generic postech-api-secret \
+        --namespace postech-api \
+        --from-literal=DB_HOST=$DB_HOST \
+        --from-literal=DB_PORT=$DB_PORT \
+        --from-literal=DB_NAME=$DB_NAME \
+        --from-literal=DB_USER=$DB_USER \
+        --from-literal=DB_PASSWORD=$DB_PASSWORD \
+        --dry-run=client -o yaml | kubectl apply -f iac/kubernetes/ -
