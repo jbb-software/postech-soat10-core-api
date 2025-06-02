@@ -11,7 +11,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Configure aws credentials
+    - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -25,7 +25,7 @@ jobs:
         chmod +x kubectl
         sudo mv kubectl /usr/local/bin/
 
-    - name: Intall AWS CLI
+    - name: Install AWS CLI
       run: |
         sudo apt-get update
         sudo apt-get install -y awscli
@@ -35,8 +35,8 @@ jobs:
         aws eks --region us-east-1 update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
 
     - name: Generate Kubernetes Secret
-    run: |
-      cat > iac/kubernetes/secret.yaml <<EOF
+      run: |
+        cat > iac/kubernetes/secret.yaml <<EOF
 apiVersion: v1
 kind: Secret
 metadata:
@@ -50,15 +50,15 @@ stringData:
   DB_USER: "${DB_USER}"
   DB_PASSWORD: "${DB_PASSWORD}"
 EOF
-  env:
-    DB_HOST: ${{ secrets.DB_HOST }}
-    DB_PORT: ${{ secrets.DB_PORT }}
-    DB_NAME: ${{ secrets.DB_NAME }}
-    DB_USER: ${{ secrets.DB_USER }}
-    DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_PORT: ${{ secrets.DB_PORT }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     - name: Verify cluster connection
       run: kubectl get nodes
 
-    - name: Apply kubernetes manifests
+    - name: Apply Kubernetes manifests
       run: kubectl apply -f iac/kubernetes/
