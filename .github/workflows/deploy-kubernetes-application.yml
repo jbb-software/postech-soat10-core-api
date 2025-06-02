@@ -37,7 +37,7 @@ jobs:
     - name: Verify cluster connection
       run: kubectl get nodes
 
-    - name: Create Kubernetes Secret and apply
+    - name: Create Kubernetes Secret
       env:
         DB_HOST: ${{ secrets.DB_HOST }}
         DB_PORT: ${{ secrets.DB_PORT }}
@@ -52,4 +52,7 @@ jobs:
           --from-literal=DB_NAME=$DB_NAME \
           --from-literal=DB_USER=$DB_USER \
           --from-literal=DB_PASSWORD=$DB_PASSWORD \
-          --dry-run=client -o yaml | kubectl apply -f iac/kubernetes/ -
+          --dry-run=client -o yaml | kubectl apply -f -
+
+    - name: Apply Kubernetes manifests
+      run: kubectl apply -f iac/kubernetes/
