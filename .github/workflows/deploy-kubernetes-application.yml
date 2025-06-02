@@ -32,6 +32,9 @@ jobs:
     - name: Verify cluster connection
       run: kubectl get nodes
 
+    - name: Create namespace
+      run: kubectl create namespace postech-api --dry-run=client -o yaml | kubectl apply -f -
+
     - name: Create Kubernetes Secret
       env:
         DB_HOST: ${{ secrets.DB_HOST }}
