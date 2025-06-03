@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	handler2 "post-tech-challenge-10soat/app/internal/delivery/http/handler"
 	"post-tech-challenge-10soat/app/internal/infrastructure/config"
-	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -32,9 +31,7 @@ func NewRouter(
 		gin.SetMode(gin.ReleaseMode)
 	}
 	ginConfig := cors.DefaultConfig()
-	allowedOrigins := config.AllowedOrigins
-	originsList := strings.Split(allowedOrigins, ",")
-	ginConfig.AllowOrigins = originsList
+	ginConfig.AllowAllOrigins = true
 
 	router := gin.New()
 	router.Use(sloggin.New(slog.Default()), gin.Recovery(), cors.New(ginConfig))
