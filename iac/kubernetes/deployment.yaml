@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
       - name: postech-api
-        image: 807023255505.dkr.ecr.us-east-1.amazonaws.com/postech-api:1.0.0
+        image: 807023255505.dkr.ecr.us-east-1.amazonaws.com/postech-api:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         envFrom:
