@@ -75,7 +75,7 @@ jobs:
 
     - name: Delete Kubernetes manifests
       run: |
-        kubectl delete -f iac/kubernetes/ --ignore-not-found=true
+        kubectl delete all --all -n postech-api
 
     - name: Apply Kubernetes manifests
       run: kubectl apply -f iac/kubernetes/
