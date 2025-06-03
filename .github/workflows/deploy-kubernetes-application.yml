@@ -73,5 +73,9 @@ jobs:
           --from-literal=DB_PASSWORD=$DB_PASSWORD \
           --dry-run=client -o yaml | kubectl apply -f -
 
+    - name: Delete Kubernetes manifests
+      run: |
+        kubectl delete -f iac/kubernetes/ --ignore-not-found=true
+
     - name: Apply Kubernetes manifests
       run: kubectl apply -f iac/kubernetes/
