@@ -4,10 +4,11 @@ import (
 	"context"
 	"embed"
 	"fmt"
-	"github.com/golang-migrate/migrate/v4"
 	"log"
 	"os"
 	"post-tech-challenge-10soat/app/internal/infrastructure/config"
+
+	"github.com/golang-migrate/migrate/v4"
 
 	"github.com/Masterminds/squirrel"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
@@ -25,7 +26,7 @@ type DB struct {
 }
 
 func New(ctx context.Context, config *config.DB) (*DB, error) {
-	url := fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable",
+	url := fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=require",
 		config.Connection,
 		config.User,
 		config.Password,
